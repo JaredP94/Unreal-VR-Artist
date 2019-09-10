@@ -15,12 +15,21 @@ public:
 	// Sets default values for this actor's properties
 	APaintStroke();
 
+	void UpdatePaintStroke(FVector BrushLocation);
+
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	USceneComponent* Root;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+private:
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMesh* SplineStaticMesh;
 
+	UPROPERTY(EditDefaultsOnly)
+	UMaterialInterface* SplineMaterialInterface;
+
+private:
+	class USplineMeshComponent* CreateSplineMeshComponent();
+
+	FVector LastBrushLocation;
 };

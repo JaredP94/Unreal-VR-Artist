@@ -32,4 +32,7 @@ protected:
 private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class APaintStroke> PaintStrokeClass;
+
+private:
+	class APaintStroke* CurrentPaintStroke;
 };

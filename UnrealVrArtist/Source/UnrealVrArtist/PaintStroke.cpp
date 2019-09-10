@@ -3,25 +3,36 @@
 
 #include "PaintStroke.h"
 
+#include "Components/SplineMeshComponent.h"
+
 // Sets default values
 APaintStroke::APaintStroke()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SetRootComponent(Root);
 }
 
-// Called when the game starts or when spawned
-void APaintStroke::BeginPlay()
+void APaintStroke::UpdatePaintStroke(FVector BrushLocation)
 {
-	Super::BeginPlay();
-	
+	auto Spline = CreateSplineMeshComponent();
+	auto StartLocation = GetActorTransform().InverseTransformPosition(BrushLocation);
+	auto EndLocation = GetActorTransform().InverseTransformPosition(LastBrushLocation);
+
+	Spline->SetStartAndEnd(StartLocation, FVector::ZeroVector, EndLocation, FVector::ZeroVector);
+	LastBrushLocation = BrushLocation;
 }
 
-// Called every frame
-void APaintStroke::Tick(float DeltaTime)
+USplineMeshComponent* APaintStroke::CreateSplineMeshComponent()
 {
-	Super::Tick(DeltaTime);
+	auto Spline = NewObject<USplineMeshComponent>(this);
+	Spline->SetMobility(EComponentMobility::Movable);
+	Spline->AttachToComponent(Root, FAttachmentTransformRules::SnapToTargetIncludingScale);
+	Spline->SetStaticMesh(SplineStaticMesh);
+	Spline->SetMaterial(0, SplineMaterialInterface);
+	Spline->RegisterComponent();
 
+	return Spline;
 }
-

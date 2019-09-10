@@ -22,12 +22,13 @@ AVrController::AVrController()
 
 void AVrController::MotionControllerTriggerPressed()
 {
-	auto PaintStroke = GetWorld()->SpawnActor<APaintStroke>(PaintStrokeClass);
-	PaintStroke->SetActorLocation(GetActorLocation());
+	CurrentPaintStroke = GetWorld()->SpawnActor<APaintStroke>(PaintStrokeClass);
+	CurrentPaintStroke->SetActorLocation(GetActorLocation());
 }
 
 void AVrController::MotionControllerTriggerReleased()
 {
+	CurrentPaintStroke = nullptr;
 }
 
 // Called when the game starts or when spawned
@@ -42,5 +43,9 @@ void AVrController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (CurrentPaintStroke == nullptr)
+		return;
+
+	CurrentPaintStroke->UpdatePaintStroke(GetActorLocation());
 }
 
