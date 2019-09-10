@@ -18,6 +18,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
@@ -32,4 +33,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "VR Controller")
 	class AVrController* RightMotionController;
 
+private:
+	void RightMotionTriggerPressed();
+	void RightMotionTriggerReleased();
 };

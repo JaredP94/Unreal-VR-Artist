@@ -6,6 +6,8 @@
 #include "VrController.h"
 #include "Camera/CameraComponent.h"
 #include "Engine/World.h"
+#include "GameFramework/Character.h"
+#include "Components/InputComponent.h"
 
 // Sets default values
 AVrPawn::AVrPawn()
@@ -31,5 +33,29 @@ void AVrPawn::BeginPlay()
 		RightMotionController->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
 		RightMotionController->SetOwner(this);
 	}
+}
+
+void AVrPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Pressed, this, &AVrPawn::RightMotionTriggerPressed);
+	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Released, this, &AVrPawn::RightMotionTriggerReleased);
+}
+
+void AVrPawn::RightMotionTriggerPressed()
+{
+	if (RightMotionController == nullptr)
+		return;
+
+	RightMotionController->MotionControllerTriggerPressed();
+}
+
+void AVrPawn::RightMotionTriggerReleased()
+{
+	if (RightMotionController == nullptr)
+		return;
+
+	RightMotionController->MotionControllerTriggerReleased();
 }
 

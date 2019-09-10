@@ -4,6 +4,9 @@
 #include "VrController.h"
 
 #include "MotionControllerComponent.h"
+#include "Engine/World.h"
+
+#include "PaintStroke.h"
 
 // Sets default values
 AVrController::AVrController()
@@ -15,6 +18,16 @@ AVrController::AVrController()
 	SetRootComponent(MotionController);
 	MotionController->SetTrackingSource(EControllerHand::Right);
 	MotionController->SetShowDeviceModel(true);
+}
+
+void AVrController::MotionControllerTriggerPressed()
+{
+	auto PaintStroke = GetWorld()->SpawnActor<APaintStroke>(PaintStrokeClass);
+	PaintStroke->SetActorLocation(GetActorLocation());
+}
+
+void AVrController::MotionControllerTriggerReleased()
+{
 }
 
 // Called when the game starts or when spawned
