@@ -13,26 +13,16 @@ APaintStroke::APaintStroke()
 
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(Root);
+
+	PaintStrokeMeshes = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("PaintStrokeMeshes"));
+	PaintStrokeMeshes->SetupAttachment(Root);
 }
 
 void APaintStroke::UpdatePaintStroke(FVector BrushLocation)
 {
-	auto Spline = CreateSplineMeshComponent();
-	auto StartLocation = GetActorTransform().InverseTransformPosition(BrushLocation);
-	auto EndLocation = GetActorTransform().InverseTransformPosition(LastBrushLocation);
-
-	Spline->SetStartAndEnd(StartLocation, FVector::ZeroVector, EndLocation, FVector::ZeroVector);
+	FTransform NewStrokeTransform;
+	FVector LocalBrushLocation = GetTransform().InverseTransformPosition(BrushLocation);
+	NewStrokeTransform.SetLocation(LocalBrushLocation);
+	PaintStrokeMeshes->AddInstance(NewStrokeTransform);
 	LastBrushLocation = BrushLocation;
-}
-
-USplineMeshComponent* APaintStroke::CreateSplineMeshComponent()
-{
-	auto Spline = NewObject<USplineMeshComponent>(this);
-	Spline->SetMobility(EComponentMobility::Movable);
-	Spline->AttachToComponent(Root, FAttachmentTransformRules::SnapToTargetIncludingScale);
-	Spline->SetStaticMesh(SplineStaticMesh);
-	Spline->SetMaterial(0, SplineMaterialInterface);
-	Spline->RegisterComponent();
-
-	return Spline;
 }

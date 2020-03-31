@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/InstancedStaticMeshComponent.h"
+
 #include "PaintStroke.generated.h"
 
 UCLASS()
@@ -21,15 +23,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USceneComponent* Root;
 
-private:
-	UPROPERTY(EditDefaultsOnly)
-	UStaticMesh* SplineStaticMesh;
-
-	UPROPERTY(EditDefaultsOnly)
-	UMaterialInterface* SplineMaterialInterface;
+	UPROPERTY(VisibleAnywhere)
+	UInstancedStaticMeshComponent* PaintStrokeMeshes;
 
 private:
-	class USplineMeshComponent* CreateSplineMeshComponent();
-
 	FVector LastBrushLocation;
 };
