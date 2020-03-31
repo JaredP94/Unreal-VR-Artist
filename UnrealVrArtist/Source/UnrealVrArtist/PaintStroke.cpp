@@ -16,6 +16,9 @@ APaintStroke::APaintStroke()
 
 	PaintStrokeMeshes = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("PaintStrokeMeshes"));
 	PaintStrokeMeshes->SetupAttachment(Root);
+
+	PaintJointMeshes = CreateDefaultSubobject<UInstancedStaticMeshComponent>(TEXT("PaintJointMeshes"));
+	PaintJointMeshes->SetupAttachment(Root);
 }
 
 void APaintStroke::UpdatePaintStroke(FVector BrushLocation)
@@ -23,39 +26,48 @@ void APaintStroke::UpdatePaintStroke(FVector BrushLocation)
 	if (LastBrushLocation.IsNearlyZero())
 	{
 		LastBrushLocation = BrushLocation;
+		PaintJointMeshes->AddInstance(GetNextJointTransform(BrushLocation));
 		return;
 	}
 
 	PaintStrokeMeshes->AddInstance(GetNextSegmentTransform(BrushLocation));
+	PaintJointMeshes->AddInstance(GetNextJointTransform(BrushLocation));
 
 	LastBrushLocation = BrushLocation;
 }
 
-FTransform APaintStroke::GetNextSegmentTransform(FVector CurrentLocation) const
+FTransform APaintStroke::GetNextJointTransform(FVector BrushLocation) const
+{
+	FTransform JointTransform;
+	JointTransform.SetLocation(GetTransform().InverseTransformPosition(BrushLocation));
+	return JointTransform;
+}
+
+FTransform APaintStroke::GetNextSegmentTransform(FVector BrushLocation) const
 {
 	FTransform SegmentTransform;
 
-	SegmentTransform.SetScale3D(GetNextSegmentScale(CurrentLocation));
-	SegmentTransform.SetRotation(GetNextSegmentRotation(CurrentLocation));
-	SegmentTransform.SetLocation(GetNextSegmentLocation(CurrentLocation));
+	SegmentTransform.SetScale3D(GetNextSegmentScale(BrushLocation));
+	SegmentTransform.SetRotation(GetNextSegmentRotation(BrushLocation));
+	SegmentTransform.SetLocation(GetNextSegmentLocation(BrushLocation));
 
 	return SegmentTransform;
 }
 
-FVector APaintStroke::GetNextSegmentScale(FVector CurrentLocation) const
+FVector APaintStroke::GetNextSegmentScale(FVector BrushLocation) const
 {
-	FVector Segment = CurrentLocation - LastBrushLocation;
+	FVector Segment = BrushLocation - LastBrushLocation;
 	return FVector(Segment.Size(), 1, 1);
 }
 
-FQuat APaintStroke::GetNextSegmentRotation(FVector CurrentLocation) const
+FQuat APaintStroke::GetNextSegmentRotation(FVector BrushLocation) const
 {
-	FVector Segment = CurrentLocation - LastBrushLocation;
+	FVector Segment = BrushLocation - LastBrushLocation;
 	FVector SegmentNormal = Segment.GetSafeNormal();
 	return FQuat::FindBetweenNormals(FVector::ForwardVector, SegmentNormal);
 }
 
-FVector APaintStroke::GetNextSegmentLocation(FVector CurrentLocation) const
+FVector APaintStroke::GetNextSegmentLocation(FVector BrushLocation) const
 {
 	return GetTransform().InverseTransformPosition(LastBrushLocation);
 }

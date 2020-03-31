@@ -26,11 +26,15 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UInstancedStaticMeshComponent* PaintStrokeMeshes;
 
+	UPROPERTY(VisibleAnywhere)
+	UInstancedStaticMeshComponent* PaintJointMeshes;
+
 private:
-	FTransform GetNextSegmentTransform(FVector CurrentLocation) const;
-	FVector GetNextSegmentScale(FVector CurrentLocation) const;
-	FQuat GetNextSegmentRotation(FVector CurrentLocation) const;
-	FVector GetNextSegmentLocation(FVector CurrentLocation) const;
+	FTransform GetNextJointTransform(FVector BrushLocation) const;
+	FTransform GetNextSegmentTransform(FVector BrushLocation) const;
+	FVector GetNextSegmentScale(FVector BrushLocation) const;
+	FQuat GetNextSegmentRotation(FVector BrushLocation) const;
+	FVector GetNextSegmentLocation(FVector BrushLocation) const;
 
 private:
 	FVector LastBrushLocation;
