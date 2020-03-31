@@ -36,4 +36,6 @@ protected:
 private:
 	void RightMotionTriggerPressed();
 	void RightMotionTriggerReleased();
+	void Save();
+	void Load();
 };

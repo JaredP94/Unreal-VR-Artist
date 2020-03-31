@@ -15,3 +15,8 @@ bool UVRArtistSaveGame::Save()
 {
 	return UGameplayStatics::SaveGameToSlot(this, TEXT("Test"), 0);
 }
+
+UVRArtistSaveGame* UVRArtistSaveGame::Load()
+{
+	return Cast<UVRArtistSaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("Test"), 0));
+}

@@ -22,9 +22,6 @@ AVrPawn::AVrPawn()
 
 	VrCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("VR Camera"));
 	VrCamera->SetupAttachment(VrRoot);
-
-	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Create();
-	Artwork->Save();
 }
 
 // Called when the game starts or when spawned
@@ -46,6 +43,8 @@ void AVrPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Pressed, this, &AVrPawn::RightMotionTriggerPressed);
 	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Released, this, &AVrPawn::RightMotionTriggerReleased);
+	PlayerInputComponent->BindAction(TEXT("Save"), EInputEvent::IE_Released, this, &AVrPawn::Save);
+	PlayerInputComponent->BindAction(TEXT("Load"), EInputEvent::IE_Released, this, &AVrPawn::Load);
 }
 
 void AVrPawn::RightMotionTriggerPressed()
@@ -64,3 +63,22 @@ void AVrPawn::RightMotionTriggerReleased()
 	RightMotionController->MotionControllerTriggerReleased();
 }
 
+void AVrPawn::Save()
+{
+	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Create();
+	Artwork->SetState("Hello World!");
+	Artwork->Save();
+}
+
+void AVrPawn::Load()
+{
+	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Load();
+	if (Artwork)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Artwork State %s"), *Artwork->GetState());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Not found"));
+	}
+}

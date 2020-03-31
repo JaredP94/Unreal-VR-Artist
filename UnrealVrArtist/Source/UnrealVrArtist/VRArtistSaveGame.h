@@ -17,4 +17,12 @@ class UNREALVRARTIST_API UVRArtistSaveGame : public USaveGame
 public:
 	static UVRArtistSaveGame* Create();
 	bool Save();
+	static UVRArtistSaveGame* Load();
+	void SetState(FString NewState) { State = NewState; }
+	FString GetState() const { return State; }
+
+protected:
+	//State
+	UPROPERTY()
+	FString State;
 };
