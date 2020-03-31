@@ -20,9 +20,16 @@ public:
 	static UVRArtistSaveGame* Load();
 	void SetState(FString NewState) { State = NewState; }
 	FString GetState() const { return State; }
+	void SerializeFromWorld(UWorld* World);
+	void DeserializeToWorld(UWorld* World);
 
 protected:
-	//State
 	UPROPERTY()
 	FString State;
+
+	UPROPERTY()
+	TArray<TSubclassOf<class APaintStroke>> PaintStrokes;
+
+private:
+	void ClearWorld(UWorld* World);
 };

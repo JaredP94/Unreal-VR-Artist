@@ -67,6 +67,7 @@ void AVrPawn::Save()
 {
 	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Create();
 	Artwork->SetState("Hello World!");
+	Artwork->SerializeFromWorld(GetWorld());
 	Artwork->Save();
 }
 
@@ -75,6 +76,7 @@ void AVrPawn::Load()
 	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Load();
 	if (Artwork)
 	{
+		Artwork->DeserializeToWorld(GetWorld());
 		UE_LOG(LogTemp, Warning, TEXT("Artwork State %s"), *Artwork->GetState());
 	}
 	else
