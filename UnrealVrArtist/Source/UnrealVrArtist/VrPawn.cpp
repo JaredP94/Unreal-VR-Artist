@@ -4,6 +4,8 @@
 #include "VrPawn.h"
 
 #include "VrController.h"
+#include "VRArtistSaveGame.h"
+
 #include "Camera/CameraComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
@@ -20,6 +22,9 @@ AVrPawn::AVrPawn()
 
 	VrCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("VR Camera"));
 	VrCamera->SetupAttachment(VrRoot);
+
+	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Create();
+	Artwork->Save();
 }
 
 // Called when the game starts or when spawned
