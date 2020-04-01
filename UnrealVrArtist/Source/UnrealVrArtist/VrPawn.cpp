@@ -3,7 +3,7 @@
 
 #include "VrPawn.h"
 
-#include "VrController.h"
+#include "PaintBrushHandController.h"
 #include "VRArtistSaveGame.h"
 
 #include "Camera/CameraComponent.h"
@@ -31,7 +31,7 @@ void AVrPawn::BeginPlay()
 	
 	if (MotionControllerClass)
 	{
-		RightMotionController = GetWorld()->SpawnActor<AVrController>(MotionControllerClass);
+		RightMotionController = GetWorld()->SpawnActor<APaintBrushHandController>(MotionControllerClass);
 		RightMotionController->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
 		RightMotionController->SetOwner(this);
 	}

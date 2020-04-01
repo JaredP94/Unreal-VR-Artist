@@ -4,18 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "VrController.generated.h"
+#include "HandControllerBase.h"
+#include "PaintBrushHandController.generated.h"
 
 UCLASS()
-class UNREALVRARTIST_API AVrController : public AActor
+class UNREALVRARTIST_API APaintBrushHandController : public AHandControllerBase
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AVrController();
-	void MotionControllerTriggerPressed();
-	void MotionControllerTriggerReleased();
+	APaintBrushHandController();
+
+	void MotionControllerTriggerPressed() override;
+	void MotionControllerTriggerReleased() override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,10 +26,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-protected:
-	UPROPERTY(VisibleAnywhere, Category = "VR Controller")
-	class UMotionControllerComponent* MotionController;
 
 private:
 	UPROPERTY(EditAnywhere)

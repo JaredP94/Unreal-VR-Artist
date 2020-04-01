@@ -22,7 +22,7 @@ protected:
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class AVrController> MotionControllerClass;
+	TSubclassOf<class APaintBrushHandController> MotionControllerClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USceneComponent* VrRoot;
@@ -31,7 +31,7 @@ protected:
 	class UCameraComponent* VrCamera;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "VR Controller")
-	class AVrController* RightMotionController;
+	class APaintBrushHandController* RightMotionController;
 
 private:
 	void RightMotionTriggerPressed();
