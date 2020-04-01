@@ -6,6 +6,18 @@
 #include "GameFramework/SaveGame.h"
 #include "VRArtistSaveGame.generated.h"
 
+USTRUCT()
+struct FPaintStrokeState
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	TSubclassOf<class APaintStroke> Class;
+
+	UPROPERTY()
+	TArray<FVector> ControlPoints;
+};
+
 /**
  * 
  */
@@ -28,7 +40,7 @@ protected:
 	FString State;
 
 	UPROPERTY()
-	TArray<TSubclassOf<class APaintStroke>> PaintStrokes;
+	TArray<FPaintStrokeState> PaintStrokes;
 
 private:
 	void ClearWorld(UWorld* World);

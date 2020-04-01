@@ -29,17 +29,16 @@ void UVRArtistSaveGame::SerializeFromWorld(UWorld* World)
 	PaintStrokes.Empty();
 	for (TActorIterator<APaintStroke> PaintStrokeItr(World); PaintStrokeItr; ++PaintStrokeItr)
 	{
-		//TODO:Serialize
-		PaintStrokes.Add(PaintStrokeItr->GetClass());
+		PaintStrokes.Add(PaintStrokeItr->SerializeToStruct());
 	}
 }
 
 void UVRArtistSaveGame::DeserializeToWorld(UWorld* World)
 {
 	ClearWorld(World);
-	for (TSubclassOf<APaintStroke> PaintStrokeClass : PaintStrokes)
+	for (FPaintStrokeState PaintStrokeState : PaintStrokes)
 	{
-		World->SpawnActor<APaintStroke>(PaintStrokeClass);
+		APaintStroke::SpawnAndDeserializeFromStruct(World, PaintStrokeState);
 	}
 }
 

@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Components/InstancedStaticMeshComponent.h"
 
+#include "VRArtistSaveGame.h"
+
 #include "PaintStroke.generated.h"
 
 UCLASS()
@@ -18,6 +20,8 @@ public:
 	APaintStroke();
 
 	void UpdatePaintStroke(FVector BrushLocation);
+	FPaintStrokeState SerializeToStruct() const;
+	static APaintStroke* SpawnAndDeserializeFromStruct(UWorld* World, const FPaintStrokeState& PaintStrokeState);
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -38,4 +42,5 @@ private:
 
 private:
 	FVector LastBrushLocation;
+	TArray<FVector> ControlPoints;
 };

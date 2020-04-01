@@ -3,6 +3,7 @@
 
 #include "PaintStroke.h"
 
+#include "Engine/World.h"
 #include "Components/SplineMeshComponent.h"
 
 // Sets default values
@@ -23,6 +24,8 @@ APaintStroke::APaintStroke()
 
 void APaintStroke::UpdatePaintStroke(FVector BrushLocation)
 {
+	ControlPoints.Add(BrushLocation);
+
 	if (LastBrushLocation.IsNearlyZero())
 	{
 		LastBrushLocation = BrushLocation;
@@ -70,4 +73,22 @@ FQuat APaintStroke::GetNextSegmentRotation(FVector BrushLocation) const
 FVector APaintStroke::GetNextSegmentLocation(FVector BrushLocation) const
 {
 	return GetTransform().InverseTransformPosition(LastBrushLocation);
+}
+
+FPaintStrokeState APaintStroke::SerializeToStruct() const
+{
+	FPaintStrokeState PaintStrokeState;
+	PaintStrokeState.Class = GetClass();
+	PaintStrokeState.ControlPoints = ControlPoints;
+	return PaintStrokeState;
+}
+
+APaintStroke* APaintStroke::SpawnAndDeserializeFromStruct(UWorld* World, const FPaintStrokeState& PaintStrokeState)
+{
+	APaintStroke* PaintStroke = World->SpawnActor<APaintStroke>(PaintStrokeState.Class);
+	for (FVector ControlPoint : PaintStrokeState.ControlPoints)
+	{
+		PaintStroke->UpdatePaintStroke(ControlPoint);
+	}
+	return PaintStroke;
 }
