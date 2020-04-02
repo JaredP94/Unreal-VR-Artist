@@ -31,7 +31,7 @@ void AVrPawn::BeginPlay()
 	
 	if (MotionControllerClass)
 	{
-		RightMotionController = GetWorld()->SpawnActor<APaintBrushHandController>(MotionControllerClass);
+		RightMotionController = GetWorld()->SpawnActor<AHandControllerBase>(MotionControllerClass);
 		RightMotionController->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
 		RightMotionController->SetOwner(this);
 	}
