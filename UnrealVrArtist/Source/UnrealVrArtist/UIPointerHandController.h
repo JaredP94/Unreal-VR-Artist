@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "HandControllerBase.h"
+
+#include "Components/WidgetInteractionComponent.h"
+
 #include "UIPointerHandController.generated.h"
 
 /**
@@ -13,5 +16,14 @@ UCLASS()
 class UNREALVRARTIST_API AUIPointerHandController : public AHandControllerBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	AUIPointerHandController();
+
+	void MotionControllerTriggerPressed() override;
+	void MotionControllerTriggerReleased() override;
+
+protected:
+	UPROPERTY(VisibleAnywhere)
+	UWidgetInteractionComponent* Pointer;
 };
