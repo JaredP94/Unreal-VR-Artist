@@ -4,6 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+
+#include "Camera/CameraComponent.h"
+#include "HandControllerBase.h"
+
 #include "VrPawn.generated.h"
 
 UCLASS()
@@ -22,7 +26,7 @@ protected:
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class APaintBrushHandController> MotionControllerClass;
+	TSubclassOf<AHandControllerBase> MotionControllerClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USceneComponent* VrRoot;
@@ -31,7 +35,7 @@ protected:
 	class UCameraComponent* VrCamera;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "VR Controller")
-	class APaintBrushHandController* RightMotionController;
+	class AHandControllerBase* RightMotionController;
 
 private:
 	void RightMotionTriggerPressed();
