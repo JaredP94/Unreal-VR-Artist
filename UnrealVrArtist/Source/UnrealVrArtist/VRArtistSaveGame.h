@@ -29,11 +29,12 @@ class UNREALVRARTIST_API UVRArtistSaveGame : public USaveGame
 public:
 	static UVRArtistSaveGame* Create();
 	bool Save();
-	static UVRArtistSaveGame* Load();
+	static UVRArtistSaveGame* Load(FString SlotName);
 	void SetState(FString NewState) { State = NewState; }
 	FString GetState() const { return State; }
 	void SerializeFromWorld(UWorld* World);
 	void DeserializeToWorld(UWorld* World);
+	FString GetSlotName() const { return SlotName; }
 
 protected:
 	UPROPERTY()
@@ -41,6 +42,9 @@ protected:
 
 	UPROPERTY()
 	TArray<FPaintStrokeState> PaintStrokes;
+
+	UPROPERTY()
+	FString SlotName;
 
 private:
 	void ClearWorld(UWorld* World);

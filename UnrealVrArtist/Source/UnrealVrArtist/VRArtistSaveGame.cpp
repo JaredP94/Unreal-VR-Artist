@@ -5,23 +5,25 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
+#include "Misc/Guid.h"
 
 #include "PaintStroke.h"
 
 UVRArtistSaveGame* UVRArtistSaveGame::Create()
 {
-	USaveGame* NewSaveGame = UGameplayStatics::CreateSaveGameObject(StaticClass());
-	return Cast<UVRArtistSaveGame>(NewSaveGame);
+	UVRArtistSaveGame* NewSaveGame = Cast<UVRArtistSaveGame>(UGameplayStatics::CreateSaveGameObject(StaticClass()));
+	NewSaveGame->SlotName = FGuid::NewGuid().ToString();
+	return NewSaveGame;
 }
 
 bool UVRArtistSaveGame::Save()
 {
-	return UGameplayStatics::SaveGameToSlot(this, TEXT("Test"), 0);
+	return UGameplayStatics::SaveGameToSlot(this, SlotName, 0);
 }
 
-UVRArtistSaveGame* UVRArtistSaveGame::Load()
+UVRArtistSaveGame* UVRArtistSaveGame::Load(FString SlotName)
 {
-	return Cast<UVRArtistSaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("Test"), 0));
+	return Cast<UVRArtistSaveGame>(UGameplayStatics::LoadGameFromSlot(SlotName, 0));
 }
 
 void UVRArtistSaveGame::SerializeFromWorld(UWorld* World)

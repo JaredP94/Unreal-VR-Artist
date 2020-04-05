@@ -28,6 +28,12 @@ AVrPawn::AVrPawn()
 void AVrPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Create();
+	if (Artwork && Artwork->Save())
+	{
+		CurrentSlotName = Artwork->GetSlotName();
+	}
 	
 	if (MotionControllerClass)
 	{
@@ -65,15 +71,20 @@ void AVrPawn::RightMotionTriggerReleased()
 
 void AVrPawn::Save()
 {
-	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Create();
-	Artwork->SetState("Hello World!");
-	Artwork->SerializeFromWorld(GetWorld());
-	Artwork->Save();
+	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Load(CurrentSlotName);
+
+	if (Artwork)
+	{
+		Artwork->SetState("Hello World!");
+		Artwork->SerializeFromWorld(GetWorld());
+		Artwork->Save();
+	}
 }
 
 void AVrPawn::Load()
 {
-	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Load();
+	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Load(CurrentSlotName);
+
 	if (Artwork)
 	{
 		Artwork->DeserializeToWorld(GetWorld());
