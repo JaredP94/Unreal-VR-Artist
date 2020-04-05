@@ -19,7 +19,7 @@ class UNREALVRARTIST_API UPaintingGrid : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-		void AddPainting();
+	void AddPainting(int32 PaintingIndex);
 
 protected:
 	UPROPERTY(BlueprintReadonly, VisibleAnywhere, meta = (BindWidget))

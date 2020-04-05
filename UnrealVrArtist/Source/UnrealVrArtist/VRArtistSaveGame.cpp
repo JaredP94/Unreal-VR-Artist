@@ -26,13 +26,6 @@ UVRArtistSaveGame* UVRArtistSaveGame::Create()
 
 bool UVRArtistSaveGame::Save()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Painting Index:"));
-
-	for (FString SlotName : UPainterSaveGameIndex::Load()->GetSlotNames())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Painting name: %s"), *SlotName);
-	}
-
 	return UGameplayStatics::SaveGameToSlot(this, SlotName, 0);
 }
 
