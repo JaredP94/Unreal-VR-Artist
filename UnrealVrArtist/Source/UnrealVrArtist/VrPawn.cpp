@@ -30,12 +30,6 @@ AVrPawn::AVrPawn()
 void AVrPawn::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Create();
-	if (Artwork && Artwork->Save())
-	{
-		CurrentSlotName = Artwork->GetSlotName();
-	}
 	
 	if (MotionControllerClass)
 	{

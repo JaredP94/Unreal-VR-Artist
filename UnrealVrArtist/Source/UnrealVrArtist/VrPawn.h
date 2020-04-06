@@ -41,7 +41,4 @@ private:
 	void RightMotionTriggerPressed();
 	void RightMotionTriggerReleased();
 	void Save();
-
-private:
-	FString CurrentSlotName;
 };
