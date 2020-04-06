@@ -16,6 +16,9 @@ UCLASS()
 class UNREALVRARTIST_API UPaintingGridCard : public UUserWidget
 {
 	GENERATED_BODY()
+
+public:
+	void SetPaintingName(FString PaintingName);
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, meta = (BindWidget))
