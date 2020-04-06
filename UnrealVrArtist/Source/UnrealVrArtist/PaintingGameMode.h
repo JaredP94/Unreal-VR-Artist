@@ -16,6 +16,8 @@ class UNREALVRARTIST_API APaintingGameMode : public AGameModeBase
 	
 public:
 	void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	void Save();
+	void Load();
 
 protected:
 	void BeginPlay() override;

@@ -22,12 +22,27 @@ void APaintingGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Load();
+
+	UStereoLayerFunctionLibrary::HideSplashScreen();
+}
+
+void APaintingGameMode::Save()
+{
+	UVRArtistSaveGame* Painting = UVRArtistSaveGame::Load(SlotName);
+	if (Painting)
+	{
+		Painting->SerializeFromWorld(GetWorld());
+		Painting->Save();
+	}
+}
+
+void APaintingGameMode::Load()
+{
 	UVRArtistSaveGame* Painting = UVRArtistSaveGame::Load(SlotName);
 	if (Painting)
 	{
 		Painting->DeserializeToWorld(GetWorld());
-
-		UStereoLayerFunctionLibrary::HideSplashScreen();
 	}
 	else
 	{

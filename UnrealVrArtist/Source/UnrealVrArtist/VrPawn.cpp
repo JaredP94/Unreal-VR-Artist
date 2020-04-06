@@ -5,11 +5,13 @@
 
 #include "PaintBrushHandController.h"
 #include "VRArtistSaveGame.h"
+#include "PaintingGameMode.h"
 
 #include "Camera/CameraComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
 #include "Components/InputComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AVrPawn::AVrPawn()
@@ -70,12 +72,10 @@ void AVrPawn::RightMotionTriggerReleased()
 
 void AVrPawn::Save()
 {
-	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Load(CurrentSlotName);
+	auto GameMode = Cast<APaintingGameMode>(GetWorld()->GetAuthGameMode());
 
-	if (Artwork)
-	{
-		Artwork->SetState("Hello World!");
-		Artwork->SerializeFromWorld(GetWorld());
-		Artwork->Save();
-	}
+	if (!GameMode) return;
+
+	GameMode->Save();
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
 }
