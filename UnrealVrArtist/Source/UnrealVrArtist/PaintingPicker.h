@@ -17,10 +17,15 @@ class UNREALVRARTIST_API APaintingPicker : public AActor
 public:
 	// Sets default values for this actor's properties
 	APaintingPicker();
+	void AddPainting();
+	void ToggleDeleteMode() {	UE_LOG(LogTemp, Warning, TEXT("Toggle delete mode."));	}
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+private:
+	void RefreshSlots();
 
 private:
 	UPROPERTY(VisibleAnywhere)

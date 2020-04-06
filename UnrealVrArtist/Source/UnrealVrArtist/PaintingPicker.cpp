@@ -5,6 +5,8 @@
 
 #include "PaintingGrid.h"
 #include "PainterSaveGameIndex.h"
+#include "ActionBar.h"
+#include "VRArtistSaveGame.h"
 
 // Sets default values
 APaintingPicker::APaintingPicker()
@@ -27,6 +29,17 @@ void APaintingPicker::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UActionBar* ActionBarWidget = Cast<UActionBar>(ActionBar->GetUserWidgetObject());
+	if (ActionBarWidget)
+	{
+		ActionBarWidget->SetParentPicker(this);
+	}
+
+	RefreshSlots();
+}
+
+void APaintingPicker::RefreshSlots()
+{
 	UPaintingGrid* PaintingGridWidget = Cast<UPaintingGrid>(PaintingGrid->GetUserWidgetObject());
 	if (!PaintingGridWidget) return;
 
@@ -37,4 +50,11 @@ void APaintingPicker::BeginPlay()
 		PaintingGridWidget->AddPainting(Index, SlotName);
 		++Index;
 	}
+}
+
+void APaintingPicker::AddPainting()
+{
+	UVRArtistSaveGame::Create();
+
+	RefreshSlots();
 }
