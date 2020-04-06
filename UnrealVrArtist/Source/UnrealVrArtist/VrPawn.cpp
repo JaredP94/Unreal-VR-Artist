@@ -50,7 +50,6 @@ void AVrPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Pressed, this, &AVrPawn::RightMotionTriggerPressed);
 	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Released, this, &AVrPawn::RightMotionTriggerReleased);
 	PlayerInputComponent->BindAction(TEXT("Save"), EInputEvent::IE_Released, this, &AVrPawn::Save);
-	PlayerInputComponent->BindAction(TEXT("Load"), EInputEvent::IE_Released, this, &AVrPawn::Load);
 }
 
 void AVrPawn::RightMotionTriggerPressed()
@@ -78,20 +77,5 @@ void AVrPawn::Save()
 		Artwork->SetState("Hello World!");
 		Artwork->SerializeFromWorld(GetWorld());
 		Artwork->Save();
-	}
-}
-
-void AVrPawn::Load()
-{
-	UVRArtistSaveGame* Artwork = UVRArtistSaveGame::Load(CurrentSlotName);
-
-	if (Artwork)
-	{
-		Artwork->DeserializeToWorld(GetWorld());
-		UE_LOG(LogTemp, Warning, TEXT("Artwork State %s"), *Artwork->GetState());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Not found"));
 	}
 }
