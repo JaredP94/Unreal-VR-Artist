@@ -43,7 +43,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UWidgetComponent* ActionBar;
 
-	// State
-	UPROPERTY(EditAnywhere)
+private:
 	int32 CurrentPage = 0;
 };

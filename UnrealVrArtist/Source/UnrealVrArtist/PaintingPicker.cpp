@@ -39,18 +39,16 @@ void APaintingPicker::BeginPlay()
 
 void APaintingPicker::RefreshSlots()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Number of pages %d"), GetNumberOfPages());
-
 	if (!GetPaintingGrid()) return;
 
 	GetPaintingGrid()->ClearPaintings();
 
-	int32 Index = 0;
+	int32 StartOffset = CurrentPage * GetPaintingGrid()->GetNumberOfSlots();
+	auto SlotNames = UPainterSaveGameIndex::Load()->GetSlotNames();
 
-	for (FString SlotName : UPainterSaveGameIndex::Load()->GetSlotNames())
+	for (int32 i = 0; i < GetPaintingGrid()->GetNumberOfSlots() && StartOffset + i < SlotNames.Num(); ++i)
 	{
-		GetPaintingGrid()->AddPainting(Index, SlotName);
-		++Index;
+		GetPaintingGrid()->AddPainting(i, SlotNames[StartOffset + i]);
 	}
 }
 
