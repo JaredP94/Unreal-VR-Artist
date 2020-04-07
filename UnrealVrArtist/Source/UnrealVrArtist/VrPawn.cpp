@@ -6,12 +6,14 @@
 #include "PaintBrushHandController.h"
 #include "VRArtistSaveGame.h"
 #include "PaintingGameMode.h"
+#include "PaintingPicker.h"
 
 #include "Camera/CameraComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
 #include "Components/InputComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "EngineUtils.h"
 
 // Sets default values
 AVrPawn::AVrPawn()
@@ -81,8 +83,16 @@ void AVrPawn::PaginateRightAxisInput(float AxisValue)
 
 	if (PaginationOffset != LastPaginationOffset && PaginationOffset != 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Paginate %d"), PaginationOffset);
+		UpdateCurrentPage(PaginationOffset);
 	}
 
 	LastPaginationOffset = PaginationOffset;
+}
+
+void AVrPawn::UpdateCurrentPage(int32 Offset)
+{
+	for (TActorIterator<APaintingPicker> PaintingPickerItr(GetWorld()); PaintingPickerItr; ++PaintingPickerItr)
+	{
+		PaintingPickerItr->UpdateCurrentPage(Offset);
+	}
 }

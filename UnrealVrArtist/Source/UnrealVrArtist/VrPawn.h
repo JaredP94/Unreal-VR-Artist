@@ -50,6 +50,7 @@ private:
 	void RightMotionTriggerPressed();
 	void RightMotionTriggerReleased();
 	void PaginateRightAxisInput(float AxisValue);
+	void UpdateCurrentPage(int32 Offset);
 
 private:
 	// State

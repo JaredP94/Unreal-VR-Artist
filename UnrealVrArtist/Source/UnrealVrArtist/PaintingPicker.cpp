@@ -89,3 +89,10 @@ void APaintingPicker::RefreshDots()
 		GetPaintingGrid()->AddPaginationDot(CurrentPage == i);
 	}
 }
+
+void APaintingPicker::UpdateCurrentPage(int32 Offset)
+{
+	CurrentPage = FMath::Clamp(CurrentPage + Offset, 0, GetNumberOfPages() - 1);
+
+	Refresh();
+}
