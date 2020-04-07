@@ -54,7 +54,6 @@ void AVrPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Pressed, this, &AVrPawn::RightMotionTriggerPressed);
 	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Released, this, &AVrPawn::RightMotionTriggerReleased);
-	PlayerInputComponent->BindAction(TEXT("Save"), EInputEvent::IE_Released, this, &AVrPawn::Save);
 }
 
 void AVrPawn::RightMotionTriggerPressed()
@@ -71,14 +70,4 @@ void AVrPawn::RightMotionTriggerReleased()
 		return;
 
 	RightHandController->MotionControllerTriggerReleased();
-}
-
-void AVrPawn::Save()
-{
-	auto GameMode = Cast<APaintingGameMode>(GetWorld()->GetAuthGameMode());
-
-	if (!GameMode) return;
-
-	GameMode->Save();
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainMenu"));
 }
