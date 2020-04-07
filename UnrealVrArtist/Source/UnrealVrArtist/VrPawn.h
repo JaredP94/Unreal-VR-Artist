@@ -43,7 +43,15 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Left Hand Controller")
 	AHandControllerBase* LeftHandController;
 
+	UPROPERTY(EditDefaultsOnly)
+	float PaginationThumbstickThreshold = 0.5;
+
 private:
 	void RightMotionTriggerPressed();
 	void RightMotionTriggerReleased();
+	void PaginateRightAxisInput(float AxisValue);
+
+private:
+	// State
+	int32 LastPaginationOffset = 0;
 };

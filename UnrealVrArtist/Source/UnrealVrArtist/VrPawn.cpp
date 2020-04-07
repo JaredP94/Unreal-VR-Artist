@@ -54,6 +54,7 @@ void AVrPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Pressed, this, &AVrPawn::RightMotionTriggerPressed);
 	PlayerInputComponent->BindAction(TEXT("RightMotionTrigger"), EInputEvent::IE_Released, this, &AVrPawn::RightMotionTriggerReleased);
+	PlayerInputComponent->BindAxis(TEXT("PaginateRight"), this, &AVrPawn::PaginateRightAxisInput);
 }
 
 void AVrPawn::RightMotionTriggerPressed()
@@ -70,4 +71,18 @@ void AVrPawn::RightMotionTriggerReleased()
 		return;
 
 	RightHandController->MotionControllerTriggerReleased();
+}
+
+void AVrPawn::PaginateRightAxisInput(float AxisValue)
+{
+	int32 PaginationOffset = 0;
+	PaginationOffset += AxisValue > PaginationThumbstickThreshold ? 1 : 0;
+	PaginationOffset += AxisValue < -PaginationThumbstickThreshold ? -1 : 0;
+
+	if (PaginationOffset != LastPaginationOffset && PaginationOffset != 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Paginate %d"), PaginationOffset);
+	}
+
+	LastPaginationOffset = PaginationOffset;
 }
