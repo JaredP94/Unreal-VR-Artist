@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Image.h"
 #include "PaginationDot.generated.h"
 
 /**
@@ -13,5 +14,16 @@ UCLASS()
 class UNREALVRARTIST_API UPaginationDot : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+public:
+	void SetActive(bool Active);
+
+protected:
+	UPROPERTY(BlueprintReadonly, VisibleAnywhere, meta = (BindWidget))
+	UImage* DotImage;
+
+private:
+	//Configuration
+	UPROPERTY(EditDefaultsOnly)
+	float DisabledOpacity = 0.5;
 };
