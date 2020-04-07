@@ -25,6 +25,7 @@ public:
 	void AddPainting(int32 PaintingIndex, FString PaintingName);
 
 	void ClearPaintings();
+	int32 GetNumberOfSlots() const;
 	void AddPaginationDot(bool Active);
 
 protected:
