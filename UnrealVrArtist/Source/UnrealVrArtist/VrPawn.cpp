@@ -31,11 +31,20 @@ void AVrPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (MotionControllerClass)
+	if (RightHandControllerClass)
 	{
-		RightMotionController = GetWorld()->SpawnActor<AHandControllerBase>(MotionControllerClass);
-		RightMotionController->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
-		RightMotionController->SetOwner(this);
+		RightHandController = GetWorld()->SpawnActor<AHandControllerBase>(RightHandControllerClass);
+		RightHandController->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+		RightHandController->SetHand(EControllerHand::Right);
+		RightHandController->SetOwner(this);
+	}
+
+	if (LeftHandControllerClass)
+	{
+		LeftHandController = GetWorld()->SpawnActor<AHandControllerBase>(LeftHandControllerClass);
+		LeftHandController->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+		LeftHandController->SetHand(EControllerHand::Left);
+		LeftHandController->SetOwner(this);
 	}
 }
 
@@ -50,18 +59,18 @@ void AVrPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AVrPawn::RightMotionTriggerPressed()
 {
-	if (RightMotionController == nullptr)
+	if (RightHandController == nullptr)
 		return;
 
-	RightMotionController->MotionControllerTriggerPressed();
+	RightHandController->MotionControllerTriggerPressed();
 }
 
 void AVrPawn::RightMotionTriggerReleased()
 {
-	if (RightMotionController == nullptr)
+	if (RightHandController == nullptr)
 		return;
 
-	RightMotionController->MotionControllerTriggerReleased();
+	RightHandController->MotionControllerTriggerReleased();
 }
 
 void AVrPawn::Save()

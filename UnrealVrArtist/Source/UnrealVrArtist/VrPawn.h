@@ -26,7 +26,10 @@ protected:
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AHandControllerBase> MotionControllerClass;
+	TSubclassOf<AHandControllerBase> RightHandControllerClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AHandControllerBase> LeftHandControllerClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USceneComponent* VrRoot;
@@ -34,8 +37,11 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UCameraComponent* VrCamera;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "VR Controller")
-	class AHandControllerBase* RightMotionController;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Right Hand Controller")
+	AHandControllerBase* RightHandController;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Left Hand Controller")
+	AHandControllerBase* LeftHandController;
 
 private:
 	void RightMotionTriggerPressed();
